@@ -121,6 +121,43 @@ public class administrador_de_tareas extends javax.swing.JFrame {
                 .setCellRenderer(Alinear);
     }
     
+    void LimpiarTabla() {
+ 
+        jtabla_datos.setModel(
+            new javax.swing.table.DefaultTableModel(
+                new Object[][] {
+ 
+                },
+                new String[] {
+                    "Nombre",
+                    "PID",
+                    "Tipo de sesión ",
+                    "Número de sesión",
+                    "Uso de memoria"
+                }
+            ) {
+ 
+                boolean[] canEdit = new boolean[] {
+                    false,
+                    false,
+                    false,
+                    false,
+                    false
+                };
+ 
+                public boolean isCellEditable(
+                        int rowIndex,
+                        int columnIndex) {
+ 
+                    return canEdit[columnIndex];
+                }
+            }
+        );
+ 
+        // Volver a configurar el sorter
+        configurarSorter();
+    }
+    
     private void mostrar_procesos() {
  
         int ICol = 0, ICont = 0;
@@ -292,7 +329,8 @@ public class administrador_de_tareas extends javax.swing.JFrame {
     }//GEN-LAST:event_No_procesosActionPerformed
 
     private void ActualizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ActualizarActionPerformed
-
+        LimpiarTabla();
+        mostrar_procesos();
     }//GEN-LAST:event_ActualizarActionPerformed
 
     private void ORDENARActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ORDENARActionPerformed
