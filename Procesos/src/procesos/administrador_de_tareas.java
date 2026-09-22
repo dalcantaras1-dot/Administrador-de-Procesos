@@ -26,7 +26,7 @@ public class administrador_de_tareas extends javax.swing.JFrame {
     
     private DefaultTableModel modelo;
     private TableRowSorter<TableModel> sorter;
-    private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(administrador_de_tareas.class.getName());
+   
 
     public administrador_de_tareas() {
         initComponents();
@@ -231,6 +231,49 @@ public class administrador_de_tareas extends javax.swing.JFrame {
         }
     }
     
+    
+    public void Matar_proceso() {
+ 
+        int filaSeleccionada = jtabla_datos.getSelectedRow();
+
+    // 1. Validar que se haya seleccionado una fila
+    if (filaSeleccionada == -1) {
+        JOptionPane.showMessageDialog(
+            null,
+            "ERROR, No se ha seleccionado ningún proceso",
+            "Error",
+            JOptionPane.WARNING_MESSAGE
+        );
+        return;
+    }
+
+    // 2. Obtener el valor de la celda de forma segura
+    Object valorCelda = jtabla_datos.getValueAt(filaSeleccionada, 0);
+
+    // 3. Validar que la celda no esté vacía
+    if (valorCelda == null || valorCelda.toString().trim().isEmpty()) {
+        JOptionPane.showMessageDialog(
+            null,
+            "ERROR, El nombre del proceso está vacío",
+            "Error",
+            JOptionPane.WARNING_MESSAGE
+        );
+        return;
+    }
+
+    String StrCelda = valorCelda.toString().trim();
+
+    try {
+        Process hijo = Runtime.getRuntime().exec("taskkill /F /IM " + StrCelda);
+        hijo.waitFor();
+    } catch (IOException | InterruptedException ex) {
+        Logger.getLogger(administrador_de_tareas.class.getName())
+              .log(Level.SEVERE, null, ex);
+    }
+    }
+    
+    
+    
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -411,31 +454,41 @@ String[] opciones = {
 
     private void jterminar_procesosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jterminar_procesosActionPerformed
 
+        
+        Matar_proceso();
+        LimpiarTabla();
+        mostrar_procesos();
+        
     }//GEN-LAST:event_jterminar_procesosActionPerformed
 
     /**
      * @param args the command line arguments
      */
     public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
+       try {
             for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
                 if ("Nimbus".equals(info.getName())) {
                     javax.swing.UIManager.setLookAndFeel(info.getClassName());
                     break;
                 }
             }
-        } catch (ReflectiveOperationException | javax.swing.UnsupportedLookAndFeelException ex) {
-            logger.log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (ClassNotFoundException ex) {
+            java.util.logging.Logger.getLogger(administrador_de_tareas.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (InstantiationException ex) {
+            java.util.logging.Logger.getLogger(administrador_de_tareas.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (IllegalAccessException ex) {
+            java.util.logging.Logger.getLogger(administrador_de_tareas.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
+            java.util.logging.Logger.getLogger(administrador_de_tareas.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
-
+ 
         /* Create and display the form */
-        java.awt.EventQueue.invokeLater(() -> new administrador_de_tareas().setVisible(true));
+        java.awt.EventQueue.invokeLater(new Runnable() {
+            public void run() {
+                new administrador_de_tareas().setVisible(true);
+            }
+        });
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
