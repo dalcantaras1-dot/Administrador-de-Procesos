@@ -1,10 +1,15 @@
 
 package procesos;
 
+
+import java.util.Comparator;
 import java.awt.Color;
 import java.io.BufferedReader;
+import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.Comparator;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 import javax.swing.RowFilter;
 import javax.swing.SwingConstants;
 import javax.swing.event.DocumentEvent;
@@ -13,7 +18,6 @@ import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
 import javax.swing.table.TableRowSorter;
-
 /**
  *
  * @author alcan
@@ -119,6 +123,43 @@ public class administrador_de_tareas extends javax.swing.JFrame {
  
         jtabla_datos.getColumnModel().getColumn(4)
                 .setCellRenderer(Alinear);
+    }
+    
+    void LimpiarTabla() {
+ 
+        jtabla_datos.setModel(
+            new javax.swing.table.DefaultTableModel(
+                new Object[][] {
+ 
+                },
+                new String[] {
+                    "Nombre",
+                    "PID",
+                    "Tipo de sesión ",
+                    "Número de sesión",
+                    "Uso de memoria"
+                }
+            ) {
+ 
+                boolean[] canEdit = new boolean[] {
+                    false,
+                    false,
+                    false,
+                    false,
+                    false
+                };
+ 
+                public boolean isCellEditable(
+                        int rowIndex,
+                        int columnIndex) {
+ 
+                    return canEdit[columnIndex];
+                }
+            }
+        );
+ 
+        // Volver a configurar el sorter
+        configurarSorter();
     }
     
     private void mostrar_procesos() {
@@ -292,11 +333,76 @@ public class administrador_de_tareas extends javax.swing.JFrame {
     }//GEN-LAST:event_No_procesosActionPerformed
 
     private void ActualizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ActualizarActionPerformed
-
+        LimpiarTabla();
+        mostrar_procesos();
     }//GEN-LAST:event_ActualizarActionPerformed
 
     private void ORDENARActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ORDENARActionPerformed
+String[] opciones = {
+            "Nombre: A - Z",
+            "Nombre: Z - A",
+           
+        };
 
+        int opcion = JOptionPane.showOptionDialog(
+            this,
+            "Seleccione el tipo de ordenamiento:",
+            "Ordenar procesos",
+            JOptionPane.DEFAULT_OPTION,
+            JOptionPane.QUESTION_MESSAGE,
+            null,
+            opciones,
+            opciones[0]
+        );
+
+        if (opcion == 0) {
+
+            // Nombre A - Z
+            sorter.setSortKeys(
+                java.util.Arrays.asList(
+                    new javax.swing.RowSorter.SortKey(
+                        0,
+                        javax.swing.SortOrder.ASCENDING
+                    )
+                )
+            );
+
+        } else if (opcion == 1) {
+
+            // Nombre Z - A
+            sorter.setSortKeys(
+                java.util.Arrays.asList(
+                    new javax.swing.RowSorter.SortKey(
+                        0,
+                        javax.swing.SortOrder.DESCENDING
+                    )
+                )
+            );
+
+        } else if (opcion == 2) {
+
+            // Memoria: Mayor - Menor
+            sorter.setSortKeys(
+                java.util.Arrays.asList(
+                    new javax.swing.RowSorter.SortKey(
+                        4,
+                        javax.swing.SortOrder.DESCENDING
+                    )
+                )
+            );
+
+        } else if (opcion == 3) {
+
+            // Memoria: Menor - Mayor
+            sorter.setSortKeys(
+                java.util.Arrays.asList(
+                    new javax.swing.RowSorter.SortKey(
+                        4,
+                        javax.swing.SortOrder.ASCENDING
+                    )
+                )
+            );
+        }
     }//GEN-LAST:event_ORDENARActionPerformed
 
     private void jTextField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField1ActionPerformed
