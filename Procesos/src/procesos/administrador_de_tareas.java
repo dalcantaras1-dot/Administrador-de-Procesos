@@ -23,7 +23,7 @@ import javax.swing.table.TableRowSorter;
  * @author alcan
  */
 public class administrador_de_tareas extends javax.swing.JFrame {
-    
+    //Diego Alcántara
     private DefaultTableModel modelo;
     private TableRowSorter<TableModel> sorter;
    
@@ -124,7 +124,7 @@ public class administrador_de_tareas extends javax.swing.JFrame {
         jtabla_datos.getColumnModel().getColumn(4)
                 .setCellRenderer(Alinear);
     }
-    
+    //Gabriel Valdez
     void LimpiarTabla() {
  
         jtabla_datos.setModel(
@@ -161,7 +161,7 @@ public class administrador_de_tareas extends javax.swing.JFrame {
         // Volver a configurar el sorter
         configurarSorter();
     }
-    
+    //Diego Alcántara
     private void mostrar_procesos() {
  
         int ICol = 0, ICont = 0;
@@ -231,12 +231,11 @@ public class administrador_de_tareas extends javax.swing.JFrame {
         }
     }
     
-    
+    //Jonathan Sutuj
     public void Matar_proceso() {
  
         int filaSeleccionada = jtabla_datos.getSelectedRow();
 
-    // 1. Validar que se haya seleccionado una fila
     if (filaSeleccionada == -1) {
         JOptionPane.showMessageDialog(
             null,
@@ -247,10 +246,8 @@ public class administrador_de_tareas extends javax.swing.JFrame {
         return;
     }
 
-    // 2. Obtener el valor de la celda de forma segura
     Object valorCelda = jtabla_datos.getValueAt(filaSeleccionada, 0);
 
-    // 3. Validar que la celda no esté vacía
     if (valorCelda == null || valorCelda.toString().trim().isEmpty()) {
         JOptionPane.showMessageDialog(
             null,
@@ -375,11 +372,13 @@ public class administrador_de_tareas extends javax.swing.JFrame {
 
     }//GEN-LAST:event_No_procesosActionPerformed
 
+    //Gabriel Valdez
     private void ActualizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ActualizarActionPerformed
         LimpiarTabla();
         mostrar_procesos();
     }//GEN-LAST:event_ActualizarActionPerformed
 
+    //Ober Eliezer
     private void ORDENARActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ORDENARActionPerformed
 String[] opciones = {
             "Nombre: A - Z",
@@ -452,6 +451,7 @@ String[] opciones = {
 
     }//GEN-LAST:event_jTextField1ActionPerformed
 
+    //Jonathan Sutuj
     private void jterminar_procesosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jterminar_procesosActionPerformed
 
         
